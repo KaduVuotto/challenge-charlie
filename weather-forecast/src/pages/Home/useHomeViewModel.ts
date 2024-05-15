@@ -8,6 +8,7 @@ import {
 import { kelvinToCelsius } from "../../functions/kelvinToCelsius";
 import { mphToKmh } from "../../functions/mphToKmh";
 import { weatherDescriptions } from "../../functions/weatherDescriptions";
+import { weatherIcons } from "../../functions/weatherIcons";
 
 export const useHomeViewModel = (): HomeViewProps => {
     const [weatherData, setWeatherData] = useState<WeatherData>({
@@ -32,31 +33,22 @@ export const useHomeViewModel = (): HomeViewProps => {
         event: React.KeyboardEvent<HTMLInputElement>
     ) => {
         if (event.key === "Enter") {
-            // const formattedValue = inputValue.trim(); // Remove espaços em branco extras
-            // if (formattedValue) {
-            //     setInputValue(formattedValue); // Atualiza o estado inputValue com o valor formatado
-            //     await getLocationNameFromInput(formattedValue); // Obtém a localização com base no valor formatado
-            // }
+            getInformationFromLocationInput(inputValue);
         }
     };
 
-    const getLocationNameFromInput = async (formattedValue: string) => {
+    const getInformationFromLocationInput = async (locationName: string) => {
         try {
-            // const [state, city] = formattedValue.split(","); // Divide o valor formatado em estado e cidade
-            // const response = await openCage.get(
-            //     `json?key=${openCageKey}&q=${city.trim()}&countrycode=${state.trim()}&pretty=1&no_annotations=1`
-            // );
-            // setWeatherData((prevData) => ({
-            //     ...prevData,
-            //     state,
-            //     city,
-            // }));
-            // setInputValue(`${state.trim()}, ${city.trim()}`);
-            // await getWeather(city.trim()); // Obtém a previsão do tempo com base na cidade
+            if (locationName) {
+                const response = await weatherForecast.get(
+                    `weather?q=${locationName}&APPID=${weatherForecastId}`
+                );
+                console.log("response", response);
+                const { coord } = response.data;
+                await getLocationName(coord.lat, coord.lon);
+            }
         } catch (error) {
-            console.log(
-                `Erro ao obter a localização a partir do valor de entrada: ${error}`
-            );
+            console.log(`Erro ao obter previsão do tempo: ${error}`);
             setError(true);
         }
     };
@@ -89,12 +81,32 @@ export const useHomeViewModel = (): HomeViewProps => {
             setWeatherData((prevData) => ({
                 ...prevData,
                 state,
-                city,
+                city: city,
             }));
             setInputValue(`${state}, ${city}`);
             await getWeather(state);
         } catch (error) {
             console.log(`Erro ao obter o nome da localização: ${error}`);
+            setError(true);
+        }
+    };
+
+    const getTomorrowAndAfterWeather = async (locationName: string) => {
+        try {
+            if (locationName) {
+                const response = await weatherForecast.get(
+                    `forecast?q=${locationName}&appid=${weatherForecastId}`
+                );
+                console.log("response", response);
+                const { list } = response.data;
+                setWeatherData((prevData) => ({
+                    ...prevData,
+                    tomorrow: kelvinToCelsius(Number(list[3].main.temp)),
+                    afterTomorrow: kelvinToCelsius(Number(list[11].main.temp)),
+                }));
+            }
+        } catch (error) {
+            console.log(`Erro ao obter previsão do tempo: ${error}`);
             setError(true);
         }
     };
@@ -112,10 +124,11 @@ export const useHomeViewModel = (): HomeViewProps => {
                     pressure: `${main.pressure}hPA`,
                     temperature: kelvinToCelsius(Number(main.temp)),
                     weather: weatherDescriptions(weather[0].description),
-                    icon: weather[0].icon.slice(0, 2).replace(/^0+/, ""),
+                    icon: weatherIcons(weather[0].description),
                     wind: mphToKmh(Number(wind.speed)),
                     loadingWeather: false,
                 }));
+                await getTomorrowAndAfterWeather(locationName);
             }
         } catch (error) {
             console.log(`Erro ao obter previsão do tempo: ${error}`);

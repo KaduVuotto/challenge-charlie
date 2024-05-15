@@ -18,6 +18,8 @@ export const weatherDescriptions = (description: string) => {
             return "Neve";
         case "mist":
             return "Névoa";
+        case "light rain":
+            return "Chuva leve";
         default:
             return description;
     }
