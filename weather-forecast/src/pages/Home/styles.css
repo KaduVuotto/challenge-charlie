@@ -1,0 +1,97 @@
+.Home {
+    text-align: center;
+    background-image: url("../../assets/images/bing-wallpaper.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.Loading {
+    text-align: center;
+    background-image: url("../../assets/images/bing-wallpaper.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.Header {
+    display: flex;
+    flex-direction: column;
+    font-size: calc(10px + 2vmin);
+}
+
+.Header-Container {
+    background-color: #f2edea;
+    display: flex;
+    width: 60vw;
+    padding: 16px;
+}
+
+.Error-Icon {
+    height: 24vh;
+    pointer-events: none;
+}
+
+.Compass {
+    height: 8vh;
+    pointer-events: none;
+    padding-right: 16px;
+}
+
+.Input {
+    width: 50vw;
+    background-color: transparent;
+    border-width: 0px;
+    font-size: calc(18px + 2vmin);
+    color: #8a8987;
+}
+
+.Body {
+    width: 60vw;
+    height: 52.5vh;
+    background-color: #e6b510;
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.Footer-Tomorrow {
+    width: 60vw;
+    height: 12vh;
+    background-color: #f6cb04;
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.Footer-After-Tomorrow {
+    width: 60vw;
+    height: 12vh;
+    background-color: #b79504;
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+h1,
+p {
+    color: white;
+    font-weight: bold;
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+}
