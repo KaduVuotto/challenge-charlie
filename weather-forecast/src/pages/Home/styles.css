@@ -69,7 +69,7 @@ select:focus {
     align-items: center;
     padding: 0.781vw;
     background-color: rgba(255, 255, 255, 0.9);
-    width: 38vw;
+    width: 40vw;
 }
 
 .compass-icon {
@@ -79,7 +79,7 @@ select:focus {
 }
 
 .weather-input {
-    width: 38vw;
+    width: 40vw;
     background-color: transparent;
     border-width: 0px;
     font-size: calc(16px + 2vmin);
@@ -88,7 +88,7 @@ select:focus {
 }
 
 .weather-today {
-    width: 38vw;
+    width: 40vw;
     display: flex;
     flex: 2;
 }
@@ -139,7 +139,7 @@ select:focus {
 }
 
 .weather-forecast {
-    width: 38vw;
+    width: 40vw;
     display: flex;
     flex-direction: column;
 }
