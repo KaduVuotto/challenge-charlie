@@ -1,6 +1,5 @@
 export interface HomeViewProps {
     afterTomorrow: string;
-    city: string;
     error: boolean;
     handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;

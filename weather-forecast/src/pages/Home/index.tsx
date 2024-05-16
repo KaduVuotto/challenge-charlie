@@ -5,7 +5,6 @@ import { useHomeViewModel } from "./useHomeViewModel";
 export const Home = () => {
     const {
         afterTomorrow,
-        city,
         error,
         handleInputChange,
         handleKeyDown,
@@ -22,7 +21,6 @@ export const Home = () => {
     return (
         <HomeView
             afterTomorrow={afterTomorrow}
-            city={city}
             error={error}
             handleInputChange={handleInputChange}
             handleKeyDown={handleKeyDown}

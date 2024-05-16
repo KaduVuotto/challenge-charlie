@@ -8,9 +8,7 @@ export const weatherDescriptions = (description: string) => {
             return "Nuvens dispersas";
         case "broken clouds":
             return "Nuvens quebradas";
-        case "shower rain":
-            return "Chuva de ducha";
-        case "rain":
+        case "light intensity drizzle" || "rain" || "shower rain":
             return "Chuva";
         case "thunderstorm":
             return "Trovoada";
@@ -20,6 +18,8 @@ export const weatherDescriptions = (description: string) => {
             return "Névoa";
         case "light rain":
             return "Chuva leve";
+        case "overcast clouds":
+            return "Nuvens nubladas";
         default:
             return description;
     }

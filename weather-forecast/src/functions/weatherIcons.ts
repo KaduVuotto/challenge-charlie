@@ -8,9 +8,7 @@ export const weatherIcons = (description: string) => {
             return "19";
         case "broken clouds":
             return "14";
-        case "shower rain":
-            return "18";
-        case "rain":
+        case "light intensity drizzle" || "rain" || "shower rain":
             return "18";
         case "thunderstorm":
             return "16";
@@ -20,7 +18,9 @@ export const weatherIcons = (description: string) => {
             return "13";
         case "light rain":
             return "17";
+        case "overcast clouds":
+            return "41";
         default:
-            return description;
+            return "45";
     }
 };

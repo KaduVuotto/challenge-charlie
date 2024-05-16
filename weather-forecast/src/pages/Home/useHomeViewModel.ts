@@ -43,7 +43,6 @@ export const useHomeViewModel = (): HomeViewProps => {
                 const response = await weatherForecast.get(
                     `weather?q=${locationName}&APPID=${weatherForecastId}`
                 );
-                console.log("response", response);
                 const { coord } = response.data;
                 await getLocationName(coord.lat, coord.lon);
             }
@@ -97,7 +96,6 @@ export const useHomeViewModel = (): HomeViewProps => {
                 const response = await weatherForecast.get(
                     `forecast?q=${locationName}&appid=${weatherForecastId}`
                 );
-                console.log("response", response);
                 const { list } = response.data;
                 setWeatherData((prevData) => ({
                     ...prevData,
@@ -125,7 +123,7 @@ export const useHomeViewModel = (): HomeViewProps => {
                     temperature: kelvinToCelsius(Number(main.temp)),
                     weather: weatherDescriptions(weather[0].description),
                     icon: weatherIcons(weather[0].description),
-                    wind: mphToKmh(Number(wind.speed)),
+                    wind: `NO ${mphToKmh(Number(wind.speed))}`,
                     loadingWeather: false,
                 }));
                 await getTomorrowAndAfterWeather(locationName);
