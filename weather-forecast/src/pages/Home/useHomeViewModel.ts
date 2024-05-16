@@ -10,20 +10,32 @@ import { mphToKmh } from "../../functions/mphToKmh";
 import { weatherDescriptions } from "../../functions/weatherDescriptions";
 import { weatherIcons } from "../../functions/weatherIcons";
 
+const initialState = {
+    afterTomorrow: "",
+    city: "",
+    humidity: "",
+    icon: "",
+    pressure: "",
+    temperature: "",
+    tomorrow: "",
+    weather: "",
+    wind: "",
+};
+
 export const useHomeViewModel = (): HomeViewProps => {
-    const [weatherData, setWeatherData] = useState<WeatherData>({
-        afterTomorrow: "",
-        city: "",
-        humidity: "",
-        icon: "",
-        pressure: "",
-        temperature: "",
-        tomorrow: "",
-        weather: "",
-        wind: "",
-    });
+    const [weatherData, setWeatherData] = useState<WeatherData>(initialState);
     const [error, setError] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>("");
+    const [todayColor, setTodayColor] = useState<
+        "blue-today" | "yellow-today" | "red-today"
+    >("yellow-today");
+    const [tomorrowColor, setTomorrowColor] = useState<
+        "blue-tomorrow" | "yellow-tomorrow" | "red-tomorrow"
+    >("yellow-tomorrow");
+    const [afterTomorrowColor, setAfterTomorrowColor] = useState<
+        "blue-after-tomorrow" | "yellow-after-tomorrow" | "red-after-tomorrow"
+    >("yellow-after-tomorrow");
+    const [isCelsius, setIsCelsius] = useState(true);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -35,6 +47,10 @@ export const useHomeViewModel = (): HomeViewProps => {
         if (event.key === "Enter") {
             getInformationFromLocationInput(inputValue);
         }
+    };
+
+    const toggleTemperatureUnit = () => {
+        setIsCelsius(!isCelsius);
     };
 
     const getInformationFromLocationInput = async (locationName: string) => {
@@ -99,13 +115,33 @@ export const useHomeViewModel = (): HomeViewProps => {
                 const { list } = response.data;
                 setWeatherData((prevData) => ({
                     ...prevData,
-                    tomorrow: kelvinToCelsius(Number(list[3].main.temp)),
-                    afterTomorrow: kelvinToCelsius(Number(list[11].main.temp)),
+                    tomorrow: isCelsius
+                        ? kelvinToCelsius(Number(list[3].main.temp))
+                        : list[3].main.temp,
+                    afterTomorrow: isCelsius
+                        ? kelvinToCelsius(Number(list[11].main.temp))
+                        : list[11].main.temp,
                 }));
             }
         } catch (error) {
             console.log(`Erro ao obter previsão do tempo: ${error}`);
             setError(true);
+        }
+    };
+
+    const getTemperatureColor = (temperature: string) => {
+        if (temperature < "15°C") {
+            setTodayColor("blue-today");
+            setTomorrowColor("blue-tomorrow");
+            setAfterTomorrowColor("blue-after-tomorrow");
+        } else if (temperature > "35°C") {
+            setTodayColor("red-today");
+            setTomorrowColor("red-tomorrow");
+            setAfterTomorrowColor("red-after-tomorrow");
+        } else {
+            setTodayColor("yellow-today");
+            setTomorrowColor("yellow-tomorrow");
+            setAfterTomorrowColor("yellow-after-tomorrow");
         }
     };
 
@@ -118,14 +154,17 @@ export const useHomeViewModel = (): HomeViewProps => {
                 const { main, weather, wind } = response.data;
                 setWeatherData((prevData) => ({
                     ...prevData,
-                    humidity: `${main.humidity}%`,
-                    pressure: `${main.pressure}hPA`,
-                    temperature: kelvinToCelsius(Number(main.temp)),
+                    humidity: main.humidity,
+                    pressure: main.pressure,
+                    temperature: isCelsius
+                        ? kelvinToCelsius(Number(main.temp))
+                        : main.temp,
                     weather: weatherDescriptions(weather[0].description),
                     icon: weatherIcons(weather[0].description),
-                    wind: `NO ${mphToKmh(Number(wind.speed))}`,
+                    wind: mphToKmh(Number(wind.speed)),
                     loadingWeather: false,
                 }));
+                getTemperatureColor(kelvinToCelsius(Number(main.temp)));
                 await getTomorrowAndAfterWeather(locationName);
             }
         } catch (error) {
@@ -135,19 +174,30 @@ export const useHomeViewModel = (): HomeViewProps => {
     };
 
     useEffect(() => {
+        setWeatherData(initialState);
+        getInformationFromLocationInput(inputValue);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isCelsius]);
+
+    useEffect(() => {
         getLocation();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return {
+        afterTomorrowColor,
         ...weatherData,
         error,
         inputValue,
+        isCelsius,
         handleInputChange,
         handleKeyDown,
         loading:
             !weatherData.city ||
             !weatherData.temperature ||
             !weatherData.weather,
+        todayColor,
+        tomorrowColor,
+        toggleTemperatureUnit,
     };
 };

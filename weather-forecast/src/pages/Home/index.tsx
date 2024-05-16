@@ -11,9 +11,14 @@ export const Home = () => {
         humidity,
         icon,
         inputValue,
+        isCelsius,
         loading,
         pressure,
         temperature,
+        afterTomorrowColor,
+        todayColor,
+        tomorrowColor,
+        toggleTemperatureUnit,
         tomorrow,
         weather,
         wind,
@@ -21,16 +26,21 @@ export const Home = () => {
     return (
         <HomeView
             afterTomorrow={afterTomorrow}
+            afterTomorrowColor={afterTomorrowColor}
             error={error}
             handleInputChange={handleInputChange}
             handleKeyDown={handleKeyDown}
             humidity={humidity}
-            inputValue={inputValue}
             icon={icon}
+            inputValue={inputValue}
+            isCelsius={isCelsius}
             loading={loading}
             pressure={pressure}
             temperature={temperature}
+            todayColor={todayColor}
+            toggleTemperatureUnit={toggleTemperatureUnit}
             tomorrow={tomorrow}
+            tomorrowColor={tomorrowColor}
             weather={weather}
             wind={wind}
         />

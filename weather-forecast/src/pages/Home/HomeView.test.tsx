@@ -26,14 +26,19 @@ test("renders weather component with props", () => {
             handleInputChange={() => jest.fn}
             handleKeyDown={() => jest.fn}
             humidity={today.humidity}
-            inputValue={inputValue}
             icon={today.icon}
+            inputValue={inputValue}
+            isCelsius={false}
             loading={false}
             pressure={today.pressure}
             temperature={today.temperature}
+            toggleTemperatureUnit={() => jest.fn}
             tomorrow={tomorrow.temperature}
             weather={today.weather}
             wind={today.wind}
+            todayColor={"blue-today"}
+            tomorrowColor={"blue-tomorrow"}
+            afterTomorrowColor={"blue-after-tomorrow"}
         />
     );
 

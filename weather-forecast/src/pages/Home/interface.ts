@@ -6,12 +6,20 @@ export interface HomeViewProps {
     humidity: string;
     icon: string;
     inputValue: string;
+    isCelsius: boolean;
     loading: boolean;
     pressure: string;
     temperature: string;
+    toggleTemperatureUnit: () => void;
     tomorrow: string;
     weather: string;
     wind: string;
+    todayColor: "blue-today" | "yellow-today" | "red-today";
+    tomorrowColor: "blue-tomorrow" | "yellow-tomorrow" | "red-tomorrow";
+    afterTomorrowColor:
+        | "blue-after-tomorrow"
+        | "yellow-after-tomorrow"
+        | "red-after-tomorrow";
 }
 
 export interface WeatherData {
