@@ -44,6 +44,40 @@ O projeto segue uma arquitetura MVVM (Model-View-ViewModel) com React.
 1. Após a instalação, execute o comando `npm start` no terminal.
 2. Acesse o aplicativo no navegador em `http://localhost:3000`.
 
+## Construir e Executar as Imagens Docker
+
+### Desenvolvimento
+
+Para construir e executar a imagem de desenvolvimento, você pode usar os seguintes comandos:
+
+**Construir a Imagem de Desenvolvimento:**
+
+```sh
+docker build -t clima-tempo-dev --target development .
+```
+
+**Construir a Imagem de Desenvolvimento:**
+
+```sh
+docker run -p 3000:3000 clima-tempo-dev
+```
+
+### Produção
+
+Para construir e executar a imagem de produção, você pode usar os seguintes comandos:
+
+**Construir a Imagem de Produção:**
+
+```sh
+docker build -t clima-tempo-prod --target production .
+```
+
+**Executar o Contêiner de Produção:**
+
+```sh
+docker run -p 80:80 clima-tempo-prod
+```
+
 ## Endpoints/APIs
 
 -   As APIs utilizadas são da OpenWeather e OpenCage.
